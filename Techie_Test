@@ -1,0 +1,323 @@
+using System;
+
+namespace Techie_Test
+{
+    class WordToNnumbers
+    {
+        //converting single digit numbers
+        static string One(string number)
+        {
+            //converting the input number from string to decimal
+            decimal numberD = decimal.Parse(number);
+            string value = "";
+            switch (numberD)
+            {
+                case 0:
+                    value = "";
+                    break;
+                case 1:
+                    value = "One";
+                    break;
+                case 2:
+                    value = "Two";
+                    break;
+                case 3:
+                    value = "Three";
+                    break;
+                case 4:
+                    value = "Four";
+                    break;
+                case 5:
+                    value = "Five";
+                    break;
+                case 6:
+                    value = "Six";
+                    break;
+                case 7:
+                    value = "Seven";
+                    break;
+                case 8:
+                    value = "Eight";
+                    break;
+                case 9:
+                    value = "Nine";
+                    break;
+            }
+
+            return value;
+        }
+        //converting double digit numbers
+        static string Two(string number)
+        {
+            //converting the input number from string to decimal
+            decimal numberD = decimal.Parse(number);
+            string value = "";
+            switch (numberD)
+            {
+                case 10:
+                    value = "Ten";
+                    break;
+                case 11:
+                    value = "Eleven";
+                    break;
+                case 12:
+                    value = "Twelve";
+                    break;
+                case 13:
+                    value = "Thirteen";
+                    break;
+                case 14:
+                    value = "Fourteen";
+                    break;
+                case 15:
+                    value = "Fifteen";
+                    break;
+                case 16:
+                    value = "Sixteen";
+                    break;
+                case 17:
+                    value = "Seventeen";
+                    break;
+                case 18:
+                    value = "Eighteen";
+                    break;
+                case 19:
+                    value = "Nineteen";
+                    break;
+                case 20:
+                    value = "Twenty";
+                    break;
+                case 30:
+                    value = "Thirty";
+                    break;
+                case 40:
+                    value = "Forty";
+                    break;
+                case 50:
+                    value = "Fifty";
+                    break;
+                case 60:
+                    value = "Sixty";
+                    break;
+                case 70:
+                    value = "Seventy";
+                    break;
+                case 80:
+                    value = "Eighty";
+                    break;
+                case 90: 
+                    value = "Ninety";
+                    break;
+                default:
+                    {
+                        value = Two(number.Substring(0, 1) + "0") + " " + One(number.Substring(1));
+                        break;
+                    }
+            }
+
+            return value;
+        }
+        //converting three digits numbers
+        static string Three(string number)
+        {
+            //converting the input number from string to decimal
+            decimal numberD = decimal.Parse(number);
+            string value = "";
+            switch (numberD)
+            {
+                case 100:
+                    value = "One Hundred";
+                    break;
+                case 200:
+                    value = "Two Hundred";
+                    break;
+                case 300:
+                    value = "Three Hundred";
+                    break;
+                case 400:
+                    value = "Four Hundred";
+                    break;
+                case 500:
+                    value = "Five Hundred";
+                    break;
+                case 600:
+                    value = "Six Hundred";
+                    break;
+                case 700:
+                    value = "Seven Hundred";
+                    break;
+                case 800:
+                    value = "Eight Hundred";
+                    break;
+                case 900:
+                    value = "Nine Hundred";
+                    break;
+                //dealing with numbers where the last two digits are not zeros
+                default:
+                    {
+                        value = Three(number.Substring(0, 1) + "00") + " and ";
+                        if (char.GetNumericValue(number[1]) == 1)
+                        {
+                            value += Two(number.Substring(1));
+                        }
+                        if (char.GetNumericValue(number[1]) == 0)
+                        {
+                            value += One(number.Substring(2));
+                        }
+                        else
+                        {
+                            value += Two(number.Substring(1, 1) + "0") + " " + One(number.Substring(2));
+                        }
+                        break;
+                    }
+            }
+
+            return value;
+        }
+        //converting four digits numbers
+        static string Four(string number)
+        {
+            decimal numberD = decimal.Parse(number);
+            string value = "";
+            int lengthNumber = number.Length;
+
+            if (char.GetNumericValue(number[1]) == 0 && char.GetNumericValue(number[2]) == 0 && char.GetNumericValue(number[3]) == 0)
+            {
+                value = One(number.Substring(0, 1)) + " Thousand";
+            }
+            if (char.GetNumericValue(number[2]) != 1)
+            {
+                value = One(number.Substring(0, 1)) + " Thousand " + Three(number.Substring(1, 1) + "00") + " and " + Two(number.Substring(2));
+            }
+
+            return value;
+        }
+        //converting five digits numbers
+        static string Five(string number)
+        {
+            string value = "";
+          
+            if (char.GetNumericValue(number[2]) == 0 && char.GetNumericValue(number[3]) == 0 && char.GetNumericValue(number[4]) == 0)
+            {
+                value = Two(number.Substring(0, 2)) + " Thousand";
+            }
+            else
+            {
+                value = Two(number.Substring(0, 2)) + " Thousand " + Three(number.Substring(2));
+            }
+
+            return value;
+        }
+        //converting six digits numbers
+        static string Six(string number)
+        {
+            string value = "";
+
+            if (char.GetNumericValue(number[3]) == 0 && char.GetNumericValue(number[4]) == 0 && char.GetNumericValue(number[5]) == 0)
+            {
+                value = Three(number.Substring(0, 3)) + " Thousand";
+            }
+            else
+            {
+                value = Three(number.Substring(0, 3)) + " Thousand " + Three(number.Substring(3));
+            }
+
+            return value;
+        }
+        //here we ask the user to insert a anumber and depending on its length we choose which method to use
+        static string InsertNumber()
+        {
+            Console.WriteLine("Please insert the number: ");
+            string numberIn = Console.ReadLine();
+            string value = "";
+            try
+            {
+                decimal numberCheck = decimal.Parse(numberIn);
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("An Error occurred while reading your input, please insert numbers only.");
+                InsertNumber();
+            }
+
+            char[] separators = new char[] { ',', '.', };
+            string[] numberArr = numberIn.Split(separators, 2);
+
+            string numberRands = numberArr[0];
+            
+            if (numberArr.Length == 1)
+            {
+                Rands(numberRands);
+            }
+            if (numberArr.Length == 2)
+            {
+                string numberCents = numberArr[1];
+                Console.Write((Rands(numberRands) + Cents(numberCents)));
+            }
+            if (numberArr.Length > 2)
+            {
+                Console.WriteLine("Please insert amount in the form \"00.00\" (RANDS.CENTS) no spacing between numbers");
+            }
+
+            InsertNumber();
+            return value;
+        }
+        //method that deals with rands
+        static string Rands(string numberRands)
+        {
+            string value = "";
+
+            switch (numberRands.Length)
+            {
+                case 1:
+                    Console.Write(One(numberRands) + " Rands ");
+                    break;
+                case 2:
+                    Console.Write(Two(numberRands) + " Rands ");
+                    break;
+                case 3:
+                    Console.Write(Three(numberRands) + " Rands ");
+                    break;
+                case 4:
+                    Console.Write(Four(numberRands) + " Rands ");
+                    break;
+                case 5:
+                    Console.Write(Five(numberRands) + " Rands ");
+                    break;
+                case 6:
+                    Console.Write(Six(numberRands) + " Rands ");
+                    break;
+
+
+                default:
+                    Console.WriteLine("Sorry, I only deal will numbers less than a million :) OH and please insert numbers only");
+                    break;
+            }
+            return value;
+        }
+        //metho that deals with cents
+        static string Cents(string numberCents)
+        {
+            string value = "";
+
+            switch (numberCents.Length)
+            {
+                case 1:
+                    Console.WriteLine("and " + One(numberCents) + " Cents");
+                    break;
+                case 2:
+                    Console.WriteLine("and " + Two(numberCents) + " Cents");
+                    break;
+            }
+            return value;
+        }
+
+        static void Main(string[] args)
+        {
+            InsertNumber();            
+            Console.ReadLine();
+        }
+        
+    }
+}
